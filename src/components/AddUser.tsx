@@ -27,14 +27,16 @@ export function AddUser({
     setAlunoSelecionado({});
     setEnabled(!enabled);
   }
-
-  function handleSubmit(e: FormEvent) {
+  interface SubmitEvent extends FormEvent {
+    nativeEvent: Event & {
+      submitter?: HTMLElement;
+    };
+  }
+  function handleSubmit(e: SubmitEvent) {
     e.preventDefault();
-    const target = e.target as HTMLFormElement;
-    const submitter = target.nativeEvent.submitter as
-      | HTMLButtonElement
-      | HTMLInputElement;
-    if (submitter) {
+    const submitter = e.nativeEvent.submitter;
+    if (submitter && submitter.className.includes("btn-primary")) {
+      console.log(e.nativeEvent.submitter);
       axios
         .post(BASE_URL, alunoSelecionado)
         .then(async () => {
@@ -60,6 +62,7 @@ export function AddUser({
               id="nome"
               defaultValue={alunoSelecionado?.Nome}
               onChange={handleChange}
+              required
             />
           </label>
           <label htmlFor="email">
@@ -71,6 +74,7 @@ export function AddUser({
               id="email"
               defaultValue={alunoSelecionado?.Email}
               onChange={handleChange}
+              required
             />
           </label>
           <label htmlFor="idade">
@@ -82,6 +86,7 @@ export function AddUser({
               id="idade"
               defaultValue={alunoSelecionado?.Idade}
               onChange={handleChange}
+              required
             />
           </label>
           <div className="buttons">
