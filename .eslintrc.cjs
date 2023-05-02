@@ -12,5 +12,6 @@ module.exports = {
     "react-refresh/only-export-components": "warn",
     semi: 2,
     "@typescript-eslint/no-unused-vars": "error",
+    "no-console": "error",
   },
 };

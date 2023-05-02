@@ -15,7 +15,8 @@ td {
 thead {
   border-bottom: 1px solid #b4b4b4 !important;
 }
-form#post-user {
+form#post-user,
+form#put-user {
   display: flex;
   flex-direction: column;
 }
@@ -24,4 +25,8 @@ div.buttons {
   display: flex;
   justify-content: center;
   gap: 6pt;
+}
+.pop-up-alert {
+  position: fixed !important;
+  top: 10px;
 }
