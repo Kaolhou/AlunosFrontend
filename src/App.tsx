@@ -16,7 +16,7 @@ export interface User {
   Idade: number;
 }
 
-export type crudType = "update" | "create" | "";
+export type crudType = "update" | "delete" | "create" | "";
 
 export function App() {
   const [data, setData] = useState<User[]>();
@@ -25,12 +25,15 @@ export function App() {
     enabled: false,
     message: "",
   });
-  async function getUser() {
+  async function getUser(message?: string) {
     await axios
       .get<User[]>(BASE_URL)
       .then((response) => {
         setData(Array.isArray(response.data) ? response.data : [response.data]);
-        setAlert({ enabled: true, message: "successfully updated" });
+        setAlert({
+          enabled: true,
+          message: message ?? "successfully refreshed",
+        });
       })
       // eslint-disable-next-line no-console
       .catch(console.error);
@@ -59,7 +62,7 @@ export function App() {
               Incluir Novo aluno
             </button>
           </span>
-          <button onClick={getUser}>refresh</button>
+          <button onClick={() => getUser()}>refresh</button>
         </header>
         <UserTable
           data={data}
@@ -67,8 +70,6 @@ export function App() {
           modalEnabled={modalEnabled}
           setEnabled={setModalEnabled}
         />
-
-        {/*todo precisa ser atualizado*/}
 
         <AddUser
           enabled={modalEnabled == "create"}

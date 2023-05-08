@@ -2,11 +2,12 @@ import { User, crudType } from "../App";
 import { useState } from "react";
 import UpdateUser from "./UpdateUser";
 import { AlertParams, PrintAlert } from "./Alert";
+import { ConfirmDelete } from "./ConfirmDelete";
 interface TableProps {
   data: User[] | undefined;
   modalEnabled: crudType;
   setEnabled: (a: crudType) => void;
-  getUser: () => Promise<void>;
+  getUser: (message?: string) => Promise<void>;
 }
 export function UserTable({
   data,
@@ -25,6 +26,10 @@ export function UserTable({
     setAlunoSelecionado(user);
     setEnabled("update");
   }
+  function handleDeleteClick(user: User) {
+    setAlunoSelecionado(user);
+    setEnabled("delete");
+  }
 
   return (
     <>
@@ -35,6 +40,13 @@ export function UserTable({
         enabled={modalEnabled == "update"}
         setEnabled={setEnabled}
         getUser={getUser}
+      />
+      <ConfirmDelete
+        aluno={alunoSelecionado}
+        enabled={modalEnabled == "delete"}
+        setEnabled={setEnabled}
+        getUser={getUser}
+        setAlert={setAlert}
       />
       <PrintAlert
         enabled={alert.enabled}
@@ -68,7 +80,12 @@ export function UserTable({
                 >
                   Editar
                 </button>
-                <button className="btn btn-danger">Excluir</button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDeleteClick(i)}
+                >
+                  Excluir
+                </button>
               </td>
             </tr>
           ))}

@@ -12,7 +12,7 @@ export function AddUser({
 }: {
   enabled: boolean;
   setEnabled: (a: "" | "update" | "create") => void;
-  getUser: () => Promise<void>;
+  getUser: (message?: string) => Promise<void>;
 }) {
   const [alunoSelecionado, setAlunoSelecionado] = useState<Partial<User>>();
   const [err, setErr] = useState<AlertParams>({
@@ -46,7 +46,7 @@ export function AddUser({
         .post(BASE_URL, alunoSelecionado)
         .then(async () => {
           toggleModal();
-          await getUser();
+          await getUser("Aluno criado com sucesso");
           setAlunoSelecionado({});
         })
         .catch((err: AxiosError) => {

@@ -15,7 +15,7 @@ export default function UpdateUser({
 }: {
   enabled: boolean;
   setEnabled: (a: crudType) => void;
-  getUser: () => Promise<void>;
+  getUser: (message?: string) => Promise<void>;
   user: Partial<User>;
   alert: AlertParams;
   setAlert: (a: AlertParams) => void;
